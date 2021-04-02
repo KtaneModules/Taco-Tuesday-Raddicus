@@ -224,7 +224,7 @@ public class tacoTuesday : MonoBehaviour {
         else Debug.LogFormat("[Taco Tuesday #{0}] Solution is {1} {2}. Both Days Match, so turn off the final field!", _moduleId, possibleFoods[trueFood], daysOfTheWeek[trueDay]);
 
         notAnswer = actualFood[(Array.IndexOf(actualFood, trueFood)+Random.Range(1,3))%3];
-        Debug.Log(notAnswer + " is not the answer");
+        //Debug.Log(notAnswer + " is not the answer");
 
     }
 
