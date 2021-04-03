@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using KModkit;
+using System.Text.RegularExpressions;
 using Random = UnityEngine.Random;
 
 public class tacoTuesday : MonoBehaviour {
@@ -32,6 +33,8 @@ public class tacoTuesday : MonoBehaviour {
     private string dayOfWeek = DateTime.Today.DayOfWeek.ToString(), notAnswer;
     private List<string> notPresent = new List<string>();
 
+    private bool TwitchPlaysActive = false;
+    private bool surpriseReady = false;
 
     // Use this for initialization
     void Start() {
@@ -236,13 +239,13 @@ public class tacoTuesday : MonoBehaviour {
         //check if submission = solution
         if (desiredToggle==true)
         {
-            if (primeIndex == trueDay && actualFood[foodIndex] == possibleFoods[trueFood] && otherIndex == finalDay && isOn==true) { Module.HandlePass(); _isSolved = true; Debug.LogFormat("[Taco Tuesday #{0}] Module Solved!",_moduleId); }
+            if (primeIndex == trueDay && actualFood[foodIndex] == possibleFoods[trueFood] && otherIndex == finalDay && isOn==true) { Module.HandlePass(); _isSolved = true; Debug.LogFormat("[Taco Tuesday #{0}] Module Solved!",_moduleId); if (surpriseReady) fanfare.OnInteract(); }
             else { Module.HandleStrike(); Debug.LogFormat("[Taco Tuesday #{0}] Incorrectly submitted {1] {2} on {3}.", _moduleId, possibleFoods[trueFood], daysOfTheWeek[trueDay], daysOfTheWeek[finalDay]); }
         }
         else
         {
-            if (primeIndex == trueDay && actualFood[foodIndex] == possibleFoods[trueFood] && isOn==false) { Module.HandlePass(); _isSolved = true; Debug.LogFormat("[Taco Tuesday #{0}] Module Solved!", _moduleId); }
-            else { Module.HandleStrike(); Debug.LogFormat("[Taco Tuesday #{0}] Incorrectly submitted {1] {2}! Make sure that last field is off!", _moduleId, possibleFoods[trueFood],daysOfTheWeek[trueDay]); }
+            if (primeIndex == trueDay && actualFood[foodIndex] == possibleFoods[trueFood] && isOn==false) { Module.HandlePass(); _isSolved = true; Debug.LogFormat("[Taco Tuesday #{0}] Module Solved!", _moduleId); if (surpriseReady) fanfare.OnInteract(); }
+            else { Module.HandleStrike(); Debug.LogFormat("[Taco Tuesday #{0}] Incorrectly submitted {1] {2}! Make sure that last field is off!", _moduleId, possibleFoods[trueFood], daysOfTheWeek[trueDay]); }
         }
     }
 
@@ -462,5 +465,120 @@ public class tacoTuesday : MonoBehaviour {
         int thisRoot = first + second;
         if (thisRoot > 9) return digitalRoot(thisRoot);
         return thisRoot;
+    }
+#pragma warning disable 414
+    private readonly string TwitchHelpMessage = "Use [!{0} cycle] to cycle the foods available. Use [!{0} submit Taco Tuesday is on Friday] to submit that. Forgo the \"on Friday\" to not toggle the light. Use [{0} surprise] to do something.";
+#pragma warning restore 414
+    IEnumerator ProcessTwitchCommand(string input)
+    {
+        List<string> foodNames = new List<string> { "TACO", "PIZZA", "ICE CREAM", "BURGER", "STEAK", "PASTA", "HOT DOG", "VEGGIES", "CANDY", "CAKE", "CHINESE", "BUFFET" };
+        List<string> dayNames = new List<string> { "SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY" };
+        int[] possibleLengths = new int[] { 3, 4, 6, 7 };
+
+        string command = input.Trim().ToUpperInvariant();
+        List<string> parameters = command.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        if (Regex.IsMatch(command, @"^surprise$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase))
+        {
+            yield return null;
+            surpriseReady = true;
+        }
+        else if (Regex.IsMatch(command, @"^cycle(\s*foods?)?$", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase))
+        {
+            yield return "trycancel";
+            for (int i = 0; i < 3; i++)
+            {
+                yield return new WaitForSeconds(1);
+                foodButtons[1].OnInteract();
+            }
+        }
+        else if (parameters.First() == "SUBMIT" && parameters.Count() >= 3)
+        {
+            string submittingFood, submittingDay, realDay = string.Empty;
+            bool additionalDay = false;
+            parameters.Remove("SUBMIT");
+            if (!(foodNames.Contains(parameters[0]) || (parameters[0] == "ICE" && parameters[1] == "CREAM") || (parameters[0] == "HOT" && parameters[1] == "DOG")))
+                yield return "sendtochaterror Invalid food";
+            if ((parameters[0] == "ICE" && parameters[1] == "CREAM") || (parameters[0] == "HOT" && parameters[1] == "DOG"))
+            {
+                submittingFood = parameters[0] + " " + parameters[1];
+                parameters.Remove(parameters[1]);
+            }
+            else submittingFood = parameters[0];
+            if (!actualFood.Contains(possibleFoods[Array.IndexOf(foodNames.ToArray(), submittingFood)]))
+                yield return "sendtochaterror Food is not present on display. Better luck next time sweaty...";
+            parameters.Remove(parameters[0]);
+            if (!dayNames.Contains(parameters[0]))
+                yield return "sendtochaterror Invalid day";
+            submittingDay = parameters[0];
+            parameters.Remove(submittingDay);
+            if (parameters.Count != 0)
+            {
+                if (parameters.Count() == 3 && parameters[0] == "IS" && parameters[1] == "ON" && dayNames.Contains(parameters[2]))
+                {
+                    realDay = parameters.Last();
+                    additionalDay = true;
+                }
+                else yield return "sendtochaterror Invalid secondary day";
+            }
+            //Following code is actually inputting the answer
+            yield return null;
+            while (actualFood[foodIndex].ToUpperInvariant() != submittingFood)
+            {
+                foodButtons[1].OnInteract();
+                yield return new WaitForSeconds(0.1f);
+            }
+            while (primeIndex != Array.IndexOf(dayNames.ToArray(), submittingDay))
+            {
+                primeDayButtons[1].OnInteract();
+                yield return new WaitForSeconds(0.1f);
+            }
+            if (additionalDay)
+            {
+                if (!isOn)
+                {
+                    isOnButton.OnInteract();
+                    yield return new WaitForSeconds(0.1f);
+                }
+                while (otherIndex != Array.IndexOf(dayNames.ToArray(), realDay))
+                {
+                    otherDayButtons[1].OnInteract();
+                    yield return new WaitForSeconds(0.1f);
+                }
+            }
+            else if (isOn)
+            {
+                isOnButton.OnInteract();
+                yield return new WaitForSeconds(0.1f);
+            }
+            submit.OnInteract();
+            yield return new WaitForSeconds(0.1f);
+        }
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        surpriseReady = true;
+        while (actualFood[foodIndex] != possibleFoods[trueFood])
+        {
+            foodButtons[1].OnInteract();
+            yield return new WaitForSeconds(0.1f);
+        }
+        while (primeIndex != trueDay)
+        {
+            primeDayButtons[1].OnInteract();
+            yield return new WaitForSeconds(0.1f);
+        }
+        if (desiredToggle)
+        {
+            if (!isOn) isOnButton.OnInteract(); 
+            while (otherIndex != finalDay)
+            {
+                otherDayButtons[1].OnInteract();
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        else if (isOn) isOnButton.OnInteract();
+        submit.OnInteract();
+        yield return new WaitForSeconds(0.1f);
     }
 }
