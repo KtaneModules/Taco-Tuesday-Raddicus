@@ -497,7 +497,10 @@ public class tacoTuesday : MonoBehaviour {
             bool additionalDay = false;
             parameters.Remove("SUBMIT");
             if (!(foodNames.Contains(parameters[0]) || (parameters[0] == "ICE" && parameters[1] == "CREAM") || (parameters[0] == "HOT" && parameters[1] == "DOG")))
+            {
                 yield return "sendtochaterror Invalid food";
+                yield break;
+            }
             if ((parameters[0] == "ICE" && parameters[1] == "CREAM") || (parameters[0] == "HOT" && parameters[1] == "DOG"))
             {
                 submittingFood = parameters[0] + " " + parameters[1];
@@ -505,10 +508,16 @@ public class tacoTuesday : MonoBehaviour {
             }
             else submittingFood = parameters[0];
             if (!actualFood.Contains(possibleFoods[Array.IndexOf(foodNames.ToArray(), submittingFood)]))
+            {   
                 yield return "sendtochaterror Food is not present on display. Better luck next time sweaty...";
+                yield break;
+            }
             parameters.Remove(parameters[0]);
             if (!dayNames.Contains(parameters[0]))
+            {
                 yield return "sendtochaterror Invalid day";
+                yield break;
+            }
             submittingDay = parameters[0];
             parameters.Remove(submittingDay);
             if (parameters.Count != 0)
@@ -518,7 +527,11 @@ public class tacoTuesday : MonoBehaviour {
                     realDay = parameters.Last();
                     additionalDay = true;
                 }
-                else yield return "sendtochaterror Invalid secondary day";
+                else 
+                {
+                    yield return "sendtochaterror Invalid secondary day";
+                    yield break;
+                }
             }
             //Following code is actually inputting the answer
             yield return null;
