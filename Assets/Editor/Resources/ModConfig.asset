@@ -17,8 +17,7 @@ MonoBehaviour:
   description: "Set a reminder for an event by properly inputting the name of the
     event (Food and Day) and the day it will happen.\r\n\r\nThis module's ID is tacoTuesday.\r\n\r\nIf
     you come across any bugs or instances where the module does not behave correctly,
-    please tell me in the comments and I will try to fix it as fast as I can.\r\n\r\nHere
-    is a link to the manual, as of 10/18/2020 the Repo does not have my manual up.\r\nhttps://drive.google.com/file/d/1Ivds1j-hf36Av48tfo0f5a3DzG85NUwG/view?usp=sharing"
-  version: 1.2
+    please tell me in the comments and I will try to fix it as fast as I can.\r\n"
+  version: 1.31
   outputFolder: build
   previewImage: {fileID: 2800000, guid: eff02bc7f6ca68943907a7638a712b15, type: 3}

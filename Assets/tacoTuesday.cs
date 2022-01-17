@@ -170,7 +170,7 @@ public class tacoTuesday : MonoBehaviour {
         if (trueFood == 0) {trueFood=1; }
 
         if (Info.GetPorts().Contains("DVI")) {
-            Debug.LogFormat("[Taco Tuesday #{0}] This module contains a DVI. Therefore read from the Top.", _moduleId);
+            Debug.LogFormat("[Taco Tuesday #{0}] This bomb contains a DVI. Therefore read from the Top.", _moduleId);
             trueFood = indexFromTop(trueFood);
             //Debug.Log("Intersected at " + possibleFoods[trueFood]);
             if (!(actualFood.Contains(possibleFoods[trueFood]))) trueFood = continueDown(trueFood);
