@@ -22,7 +22,7 @@ public class tacoTuesday : MonoBehaviour {
     private bool _lightsOn = false, _isSolved = false, fanfared = false;
     private static int _moduleIdCounter = 1;
     private int _moduleId = 0;
-    private int foodIndex=0, primeIndex=0, otherIndex=0, varA,varB, trueDay, trueFood, finalDay;
+    private int foodIndex=0, primeIndex=0, otherIndex=0, varA,varB, trueDay, trueFood, finalDay, foodAnswerIndex;
     private string[] possibleFoods = {"Taco","Pizza","Ice Cream","Burger","Steak","Pasta","Hot Dog","Veggies","Candy","Cake","Chinese","Buffet"};
     private string[] daysOfTheWeek = { "Sunday",  "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
     private char[] alphabet = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
@@ -228,6 +228,9 @@ public class tacoTuesday : MonoBehaviour {
         notAnswer = actualFood[(Array.IndexOf(actualFood, trueFood)+Random.Range(1,3))%3];
         //Debug.Log(notAnswer + " is not the answer");
 
+        foodAnswerIndex = Array.LastIndexOf(actualFood, possibleFoods[trueFood]);
+        Debug.Log("Desired Food is " + possibleFoods[trueFood] + " at index " + foodAnswerIndex + ".");
+
     }
 
     void handleSubmit()
@@ -238,12 +241,12 @@ public class tacoTuesday : MonoBehaviour {
         //check if submission = solution
         if (desiredToggle==true)
         {
-            if (primeIndex == trueDay && actualFood[foodIndex] == possibleFoods[trueFood] && otherIndex == finalDay && isOn==true) { Module.HandlePass(); _isSolved = true; Debug.LogFormat("[Taco Tuesday #{0}] Module Solved!",_moduleId); if (surpriseReady) handleFanfare(); }
+            if (primeIndex == trueDay && foodAnswerIndex == foodIndex && otherIndex == finalDay && isOn==true) { Module.HandlePass(); _isSolved = true; Debug.LogFormat("[Taco Tuesday #{0}] Module Solved!",_moduleId); if (surpriseReady) handleFanfare(); }
             else { Module.HandleStrike(); Debug.LogFormat("[Taco Tuesday #{0}] Incorrectly submitted {1} {2} on {3}.", _moduleId, possibleFoods[trueFood], daysOfTheWeek[trueDay], daysOfTheWeek[finalDay]); }
         }
         else
         {
-            if (primeIndex == trueDay && actualFood[foodIndex] == possibleFoods[trueFood] && isOn==false) { Module.HandlePass(); _isSolved = true; Debug.LogFormat("[Taco Tuesday #{0}] Module Solved!", _moduleId); if (surpriseReady) handleFanfare(); }
+            if (primeIndex == trueDay && foodAnswerIndex == foodIndex && isOn==false) { Module.HandlePass(); _isSolved = true; Debug.LogFormat("[Taco Tuesday #{0}] Module Solved!", _moduleId); if (surpriseReady) handleFanfare(); }
             else { Module.HandleStrike(); Debug.LogFormat("[Taco Tuesday #{0}] Incorrectly submitted {1} {2}! Make sure that last field is off!", _moduleId, possibleFoods[trueFood], daysOfTheWeek[trueDay]); }
         }
     }

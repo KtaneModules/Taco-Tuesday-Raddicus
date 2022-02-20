@@ -18,6 +18,6 @@ MonoBehaviour:
     event (Food and Day) and the day it will happen.\r\n\r\nThis module's ID is tacoTuesday.\r\n\r\nIf
     you come across any bugs or instances where the module does not behave correctly,
     please tell me in the comments and I will try to fix it as fast as I can.\r\n"
-  version: 1.31
+  version: 1.33
   outputFolder: build
   previewImage: {fileID: 2800000, guid: eff02bc7f6ca68943907a7638a712b15, type: 3}

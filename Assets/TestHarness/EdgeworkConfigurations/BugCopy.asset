@@ -12,10 +12,88 @@ MonoBehaviour:
   m_Name: BugCopy
   m_EditorClassIdentifier: 
   SerialNumberType: 2
-  CustomSerialNumber: RE6PF6
+  CustomSerialNumber: 3V8IT7
   TwoFactorResetTime: 30
   Widgets:
   - Type: 0
+    Count: 1
+    PortPlateType: 0
+    DVIPort: 0
+    ParallelPort: 0
+    PS2Port: 0
+    RJ45Port: 0
+    SerialPort: 0
+    StereoRCAPort: 0
+    ComponentVideoPort: 0
+    CompositeVideoPort: 0
+    HDMIPort: 0
+    VGAPort: 0
+    USBPort: 0
+    ACPort: 0
+    PCMCIAPort: 0
+    CustomPorts: []
+    BatteryType: 1
+    BatteryCount: 0
+    MinBatteries: 0
+    MaxBatteries: 0
+    IndicatorLabel: 0
+    CustomLabel: 
+    IndicatorState: 0
+    CustomQueryKey: 
+    CustomData: 
+  - Type: 0
+    Count: 1
+    PortPlateType: 0
+    DVIPort: 0
+    ParallelPort: 0
+    PS2Port: 0
+    RJ45Port: 0
+    SerialPort: 0
+    StereoRCAPort: 0
+    ComponentVideoPort: 0
+    CompositeVideoPort: 0
+    HDMIPort: 0
+    VGAPort: 0
+    USBPort: 0
+    ACPort: 0
+    PCMCIAPort: 0
+    CustomPorts: []
+    BatteryType: 2
+    BatteryCount: 0
+    MinBatteries: 0
+    MaxBatteries: 0
+    IndicatorLabel: 9
+    CustomLabel: 
+    IndicatorState: 0
+    CustomQueryKey: 
+    CustomData: 
+  - Type: 2
+    Count: 1
+    PortPlateType: 0
+    DVIPort: 0
+    ParallelPort: 0
+    PS2Port: 0
+    RJ45Port: 0
+    SerialPort: 0
+    StereoRCAPort: 0
+    ComponentVideoPort: 0
+    CompositeVideoPort: 0
+    HDMIPort: 0
+    VGAPort: 0
+    USBPort: 0
+    ACPort: 0
+    PCMCIAPort: 0
+    CustomPorts: []
+    BatteryType: 1
+    BatteryCount: 0
+    MinBatteries: 0
+    MaxBatteries: 0
+    IndicatorLabel: 1
+    CustomLabel: 
+    IndicatorState: 0
+    CustomQueryKey: 
+    CustomData: 
+  - Type: 2
     Count: 1
     PortPlateType: 0
     DVIPort: 0
@@ -63,84 +141,6 @@ MonoBehaviour:
     MinBatteries: 0
     MaxBatteries: 0
     IndicatorLabel: 9
-    CustomLabel: 
-    IndicatorState: 0
-    CustomQueryKey: 
-    CustomData: 
-  - Type: 2
-    Count: 1
-    PortPlateType: 0
-    DVIPort: 0
-    ParallelPort: 0
-    PS2Port: 0
-    RJ45Port: 0
-    SerialPort: 0
-    StereoRCAPort: 0
-    ComponentVideoPort: 0
-    CompositeVideoPort: 0
-    HDMIPort: 0
-    VGAPort: 0
-    USBPort: 0
-    ACPort: 0
-    PCMCIAPort: 0
-    CustomPorts: []
-    BatteryType: 1
-    BatteryCount: 0
-    MinBatteries: 0
-    MaxBatteries: 0
-    IndicatorLabel: 6
-    CustomLabel: 
-    IndicatorState: 0
-    CustomQueryKey: 
-    CustomData: 
-  - Type: 2
-    Count: 1
-    PortPlateType: 0
-    DVIPort: 0
-    ParallelPort: 0
-    PS2Port: 0
-    RJ45Port: 0
-    SerialPort: 0
-    StereoRCAPort: 0
-    ComponentVideoPort: 0
-    CompositeVideoPort: 0
-    HDMIPort: 0
-    VGAPort: 0
-    USBPort: 0
-    ACPort: 0
-    PCMCIAPort: 0
-    CustomPorts: []
-    BatteryType: 1
-    BatteryCount: 0
-    MinBatteries: 0
-    MaxBatteries: 0
-    IndicatorLabel: 0
-    CustomLabel: 
-    IndicatorState: 1
-    CustomQueryKey: 
-    CustomData: 
-  - Type: 1
-    Count: 1
-    PortPlateType: 0
-    DVIPort: 0
-    ParallelPort: 0
-    PS2Port: 0
-    RJ45Port: 0
-    SerialPort: 1
-    StereoRCAPort: 0
-    ComponentVideoPort: 0
-    CompositeVideoPort: 0
-    HDMIPort: 0
-    VGAPort: 0
-    USBPort: 0
-    ACPort: 0
-    PCMCIAPort: 0
-    CustomPorts: []
-    BatteryType: 1
-    BatteryCount: 0
-    MinBatteries: 0
-    MaxBatteries: 0
-    IndicatorLabel: 0
     CustomLabel: 
     IndicatorState: 1
     CustomQueryKey: 
